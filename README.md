@@ -1,6 +1,8 @@
 # Rameshwar Singh Metals
 
-A small ecommerce landing page with filtering, sorting, cart interactions, and newsletter signup.
+A modern online storefront for a metal trading firm dealing in aluminium, copper, brass, iron, stainless steel, steel utensils, pressure cookers and bulk metal supply.
+
+The public site uses `index.html`. The Flask version uses `templates/home.html`; keep both files in sync when making changes.
 
 ## Publish As A Static Site
 
