@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: urbancart
+    name: rameshwar-singh-metals
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
