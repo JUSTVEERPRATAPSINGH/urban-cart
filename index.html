@@ -172,6 +172,8 @@
         }
 
         .hero {
+            position: relative;
+            overflow: hidden;
             display: grid;
             grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
             align-items: center;
@@ -179,10 +181,25 @@
             min-height: 620px;
             padding: 66px 6vw 58px;
             background:
-                linear-gradient(100deg, rgba(9, 10, 11, 0.92) 0%, rgba(13, 15, 16, 0.76) 54%, rgba(13, 15, 16, 0.36) 100%),
-                url("https://images.unsplash.com/photo-1565034946487-077786996e27?auto=format&fit=crop&w=1600&q=80");
-            background-position: center;
+                linear-gradient(100deg, rgba(8, 9, 10, 0.95) 0%, rgba(13, 15, 16, 0.76) 52%, rgba(13, 15, 16, 0.34) 100%),
+                linear-gradient(28deg, rgba(196, 106, 53, 0.28), rgba(213, 166, 66, 0.08) 44%, transparent 70%),
+                url("https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1800&q=85");
+            background-position: center right;
             background-size: cover;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 42%;
+            background: linear-gradient(0deg, rgba(13, 15, 16, 0.92), transparent);
+            pointer-events: none;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1;
         }
 
         .eyebrow {
