@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanCart | Everyday Essentials</title>
+    <style>
+        :root {
+            --ink: #f8fafc;
+            --muted: #a8b3c2;
+            --line: #263241;
+            --paper: #05070a;
+            --white: #0e141b;
+            --green: #14b8a6;
+            --green-dark: #0f766e;
+            --gold: #f7c948;
+            --rose: #fb7185;
+            --shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background: var(--paper);
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        select,
+        input {
+            background: #111827;
+            border: 1px solid var(--line);
+            color: var(--ink);
+        }
+
+        .topbar {
+            background: #000000;
+            color: var(--ink);
+            padding: 10px 24px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 16px 6vw;
+            background: rgba(5, 7, 10, 0.94);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(16px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: var(--green);
+            color: #03110f;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .cart-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 8px;
+            background: #151d27;
+            color: var(--ink);
+            padding: 11px 15px;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            display: grid;
+            place-items: center;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 999px;
+            background: var(--gold);
+            color: #111827;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+            align-items: center;
+            gap: 42px;
+            padding: 54px 6vw 42px;
+            min-height: 520px;
+            background:
+                linear-gradient(120deg, rgba(0, 0, 0, 0.82), rgba(15, 23, 42, 0.88)),
+                url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1500&q=80");
+            background-size: cover;
+            background-position: center;
+            color: var(--ink);
+        }
+
+        .hero h1 {
+            margin: 0 0 18px;
+            max-width: 720px;
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 0.95;
+            letter-spacing: 0;
+        }
+
+        .hero p {
+            margin: 0 0 28px;
+            max-width: 590px;
+            color: rgba(248, 250, 252, 0.88);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            border-radius: 8px;
+            padding: 0 18px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .primary-button {
+            background: var(--gold);
+            color: #111827;
+        }
+
+        .secondary-button {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: var(--ink);
+            background: rgba(248, 250, 252, 0.08);
+        }
+
+        .hero-panel {
+            display: grid;
+            gap: 14px;
+            justify-self: end;
+            width: min(100%, 420px);
+            padding: 20px;
+            border-radius: 8px;
+            background: rgba(14, 20, 27, 0.94);
+            color: var(--ink);
+            box-shadow: var(--shadow);
+        }
+
+        .deal-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--white);
+        }
+
+        .deal-row strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .deal-row span {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .section {
+            padding: 52px 6vw;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 34px;
+            letter-spacing: 0;
+        }
+
+        .section-header p {
+            margin: 8px 0 0;
+            color: var(--muted);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .filter-button {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--white);
+            padding: 10px 14px;
+            cursor: pointer;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .filter-button.active {
+            background: var(--green);
+            border-color: var(--green);
+            color: #03110f;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .product-card {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--white);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.34);
+        }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            background: #111827;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            border-radius: 999px;
+            background: var(--rose);
+            color: #1f0a10;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .product-body {
+            padding: 16px;
+        }
+
+        .product-title {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: start;
+            min-height: 54px;
+        }
+
+        .product-title h3 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 0;
+        }
+
+        .rating {
+            color: #c88405;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .product-body p {
+            min-height: 42px;
+            margin: 10px 0 14px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .add-button {
+            min-width: 104px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--green);
+            color: #03110f;
+            padding: 10px 12px;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .add-button:hover,
+        .primary-button:hover,
+        .cart-button:hover {
+            background: var(--green-dark);
+            color: #03110f;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            background: var(--white);
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .feature {
+            padding: 22px;
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .feature span {
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .newsletter {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: center;
+            background: #000000;
+            color: var(--ink);
+        }
+
+        .newsletter h2 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .newsletter p {
+            margin: 0;
+            color: rgba(248, 250, 252, 0.72);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            width: min(520px, 100%);
+        }
+
+        .newsletter-form input {
+            width: 100%;
+            min-height: 46px;
+            border-radius: 8px;
+            padding: 0 14px;
+        }
+
+        .newsletter-form button {
+            white-space: nowrap;
+            border: 0;
+            border-radius: 8px;
+            background: var(--gold);
+            color: #111827;
+            padding: 0 16px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 24px 6vw;
+            background: #000000;
+            color: rgba(248, 250, 252, 0.78);
+            font-size: 14px;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            inset: 0 0 0 auto;
+            z-index: 50;
+            display: grid;
+            grid-template-columns: minmax(0, 390px);
+            width: 100%;
+            max-width: 390px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            transform: translateX(105%);
+            transition: transform 0.25s ease;
+        }
+
+        .cart-drawer.open {
+            transform: translateX(0);
+        }
+
+        .cart-content {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+        }
+
+        .cart-header,
+        .cart-summary {
+            padding: 18px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .cart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-header h2 {
+            margin: 0;
+        }
+
+        .close-cart {
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            font-size: 22px;
+        }
+
+        .cart-items {
+            overflow: auto;
+            padding: 12px 18px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 58px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .cart-item img {
+            width: 58px;
+            height: 58px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .quantity {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quantity button {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+        }
+
+        .cart-summary {
+            border-top: 1px solid var(--line);
+            border-bottom: 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .checkout-button {
+            width: 100%;
+            min-height: 48px;
+            margin-top: 10px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--green);
+            color: #03110f;
+            cursor: pointer;
+            font-weight: 900;
+        }
+
+        .empty-cart {
+            color: var(--muted);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 980px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel {
+                justify-self: start;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .newsletter {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .navbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                justify-content: space-between;
+                gap: 12px;
+            }
+
+            .hero {
+                padding-top: 38px;
+                min-height: auto;
+            }
+
+            .section-header {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .product-grid,
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form button {
+                min-height: 46px;
+            }
+
+            .footer {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">Free shipping on orders over $75 | New season sale is live</div>
+
+    <header class="navbar">
+        <div class="brand">
+            <span class="brand-mark">U</span>
+            <span>UrbanCart</span>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="#shop">Shop</a>
+            <a href="#deals">Deals</a>
+            <a href="#support">Support</a>
+            <button class="cart-button" id="openCart" type="button">
+                Cart <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div>
+                <h1>UrbanCart</h1>
+                <p>Curated home, style, and tech essentials with fast delivery, honest pricing, and products that feel good to use every day.</p>
+                <div class="hero-actions">
+                    <a class="primary-button" href="#shop">Shop Collection</a>
+                    <a class="secondary-button" href="#deals">View Deals</a>
+                </div>
+            </div>
+            <aside class="hero-panel" id="deals" aria-label="Today's deals">
+                <div class="deal-row">
+                    <div>
+                        <strong>Weekend Bundle</strong>
+                        <span>Save 20% on any 3 items</span>
+                    </div>
+                    <strong>20%</strong>
+                </div>
+                <div class="deal-row">
+                    <div>
+                        <strong>Express Delivery</strong>
+                        <span>Same-day shipping in selected cities</span>
+                    </div>
+                    <strong>$9</strong>
+                </div>
+                <div class="deal-row">
+                    <div>
+                        <strong>Member Credits</strong>
+                        <span>Earn rewards on every order</span>
+                    </div>
+                    <strong>5x</strong>
+                </div>
+            </aside>
+        </section>
+
+        <section class="section" id="shop">
+            <div class="section-header">
+                <div>
+                    <h2>Featured Products</h2>
+                    <p>Browse best-selling essentials across home, fashion, wellness, and tech.</p>
+                </div>
+                <select id="sortProducts" aria-label="Sort products">
+                    <option value="featured">Featured</option>
+                    <option value="low">Price: Low to High</option>
+                    <option value="high">Price: High to Low</option>
+                    <option value="rating">Top Rated</option>
+                </select>
+            </div>
+
+            <div class="filters" aria-label="Product categories">
+                <button class="filter-button active" type="button" data-category="All">All</button>
+                <button class="filter-button" type="button" data-category="Home">Home</button>
+                <button class="filter-button" type="button" data-category="Style">Style</button>
+                <button class="filter-button" type="button" data-category="Tech">Tech</button>
+                <button class="filter-button" type="button" data-category="Wellness">Wellness</button>
+            </div>
+
+            <div class="product-grid" id="productGrid"></div>
+        </section>
+
+        <section class="section features" id="support">
+            <div class="feature">
+                <strong>Secure Checkout</strong>
+                <span>Encrypted payments, order tracking, and simple refunds keep every purchase protected.</span>
+            </div>
+            <div class="feature">
+                <strong>Fast Fulfillment</strong>
+                <span>Orders are packed within 24 hours and shipped with trusted delivery partners.</span>
+            </div>
+            <div class="feature">
+                <strong>Real Support</strong>
+                <span>Friendly help is available seven days a week for products, orders, and returns.</span>
+            </div>
+        </section>
+
+        <section class="section newsletter">
+            <div>
+                <h2>Get first access to limited drops</h2>
+                <p>Join the list for restocks, early discounts, and product launches.</p>
+            </div>
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" placeholder="Email address" aria-label="Email address" required>
+                <button type="submit">Join Now</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>(c) 2026 UrbanCart. All rights reserved.</span>
+        <span>Privacy | Terms | Contact</span>
+    </footer>
+
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-cart" id="closeCart" type="button" aria-label="Close cart">x</button>
+            </div>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong id="cartSubtotal">$0.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Estimated shipping</span>
+                    <strong id="shipping">$0.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Total</span>
+                    <strong id="cartTotal">$0.00</strong>
+                </div>
+                <button class="checkout-button" type="button">Checkout</button>
+            </div>
+        </div>
+    </aside>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Minimal Desk Lamp",
+                category: "Home",
+                price: 48,
+                rating: 4.8,
+                badge: "New",
+                description: "A dimmable aluminum lamp for focused work and calm evenings.",
+                image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "Everyday Backpack",
+                category: "Style",
+                price: 72,
+                rating: 4.7,
+                badge: "Best Seller",
+                description: "Water-resistant storage with a laptop sleeve and clean profile.",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Wireless Earbuds",
+                category: "Tech",
+                price: 89,
+                rating: 4.9,
+                badge: "Hot",
+                description: "Crisp sound, noise reduction, and a compact charging case.",
+                image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "Ceramic Pour-Over Set",
+                category: "Home",
+                price: 54,
+                rating: 4.6,
+                badge: "Deal",
+                description: "A balanced brewing kit with a ceramic dripper and glass server.",
+                image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Recovery Yoga Mat",
+                category: "Wellness",
+                price: 39,
+                rating: 4.5,
+                badge: "Eco",
+                description: "High-grip cushioning made for stretching, training, and travel.",
+                image: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Smart Water Bottle",
+                category: "Wellness",
+                price: 36,
+                rating: 4.4,
+                badge: "Fresh",
+                description: "Hydration reminders, temperature display, and stainless steel build.",
+                image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 7,
+                name: "Linen Overshirt",
+                category: "Style",
+                price: 65,
+                rating: 4.7,
+                badge: "Limited",
+                description: "Breathable, relaxed tailoring for warm days and layered looks.",
+                image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 8,
+                name: "Portable Speaker",
+                category: "Tech",
+                price: 58,
+                rating: 4.6,
+                badge: "Save",
+                description: "Punchy sound, splash resistance, and twelve-hour battery life.",
+                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        const cart = new Map();
+        let currentCategory = "All";
+        let currentSort = "featured";
+
+        const productGrid = document.getElementById("productGrid");
+        const cartDrawer = document.getElementById("cartDrawer");
+        const cartItems = document.getElementById("cartItems");
+        const cartCount = document.getElementById("cartCount");
+        const cartSubtotal = document.getElementById("cartSubtotal");
+        const cartTotal = document.getElementById("cartTotal");
+        const shipping = document.getElementById("shipping");
+
+        function formatCurrency(value) {
+            return `$${value.toFixed(2)}`;
+        }
+
+        function visibleProducts() {
+            const filtered = currentCategory === "All"
+                ? [...products]
+                : products.filter(product => product.category === currentCategory);
+
+            if (currentSort === "low") {
+                return filtered.sort((a, b) => a.price - b.price);
+            }
+
+            if (currentSort === "high") {
+                return filtered.sort((a, b) => b.price - a.price);
+            }
+
+            if (currentSort === "rating") {
+                return filtered.sort((a, b) => b.rating - a.rating);
+            }
+
+            return filtered;
+        }
+
+        function renderProducts() {
+            productGrid.innerHTML = visibleProducts().map(product => `
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <span class="badge">${product.badge}</span>
+                    </div>
+                    <div class="product-body">
+                        <div class="product-title">
+                            <h3>${product.name}</h3>
+                            <span class="rating">Star ${product.rating}</span>
+                        </div>
+                        <p>${product.description}</p>
+                        <div class="product-footer">
+                            <span class="price">${formatCurrency(product.price)}</span>
+                            <button class="add-button" type="button" data-id="${product.id}">Add</button>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function addToCart(productId) {
+            const product = products.find(item => item.id === productId);
+            const current = cart.get(productId) || { product, quantity: 0 };
+            current.quantity += 1;
+            cart.set(productId, current);
+            renderCart();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.get(productId);
+            if (!item) return;
+
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart.delete(productId);
+            } else {
+                cart.set(productId, item);
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const items = Array.from(cart.values());
+            const count = items.reduce((total, item) => total + item.quantity, 0);
+            const subtotal = items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+            const shippingCost = subtotal === 0 || subtotal >= 75 ? 0 : 9;
+            const total = subtotal + shippingCost;
+
+            cartCount.textContent = count;
+            cartSubtotal.textContent = formatCurrency(subtotal);
+            shipping.textContent = formatCurrency(shippingCost);
+            cartTotal.textContent = formatCurrency(total);
+
+            if (items.length === 0) {
+                cartItems.innerHTML = `<p class="empty-cart">Your cart is empty.</p>`;
+                return;
+            }
+
+            cartItems.innerHTML = items.map(({ product, quantity }) => `
+                <div class="cart-item">
+                    <img src="${product.image}" alt="${product.name}">
+                    <div>
+                        <strong>${product.name}</strong>
+                        <span>${formatCurrency(product.price)}</span>
+                        <div class="quantity">
+                            <button type="button" data-action="decrease" data-id="${product.id}" aria-label="Decrease ${product.name}">-</button>
+                            <span>${quantity}</span>
+                            <button type="button" data-action="increase" data-id="${product.id}" aria-label="Increase ${product.name}">+</button>
+                        </div>
+                    </div>
+                    <strong>${formatCurrency(product.price * quantity)}</strong>
+                </div>
+            `).join("");
+        }
+
+        document.querySelector(".filters").addEventListener("click", event => {
+            const button = event.target.closest(".filter-button");
+            if (!button) return;
+
+            currentCategory = button.dataset.category;
+            document.querySelectorAll(".filter-button").forEach(filter => filter.classList.remove("active"));
+            button.classList.add("active");
+            renderProducts();
+        });
+
+        document.getElementById("sortProducts").addEventListener("change", event => {
+            currentSort = event.target.value;
+            renderProducts();
+        });
+
+        productGrid.addEventListener("click", event => {
+            const button = event.target.closest(".add-button");
+            if (!button) return;
+
+            addToCart(Number(button.dataset.id));
+            cartDrawer.classList.add("open");
+        });
+
+        cartItems.addEventListener("click", event => {
+            const button = event.target.closest("button[data-action]");
+            if (!button) return;
+
+            const change = button.dataset.action === "increase" ? 1 : -1;
+            updateQuantity(Number(button.dataset.id), change);
+        });
+
+        document.getElementById("openCart").addEventListener("click", () => {
+            cartDrawer.classList.add("open");
+        });
+
+        document.getElementById("closeCart").addEventListener("click", () => {
+            cartDrawer.classList.remove("open");
+        });
+
+        document.getElementById("newsletterForm").addEventListener("submit", event => {
+            event.preventDefault();
+            event.currentTarget.reset();
+            alert("Thanks for joining UrbanCart.");
+        });
+
+        renderProducts();
+        renderCart();
+    </script>
+</body>
+</html>
